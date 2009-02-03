@@ -19,6 +19,15 @@ class Account < ActiveRecord::Base
   def self.default_search_attribute
     'login'
   end
+  
+  def admin?
+      # sqlite doesn't return booleans but strings 
+      # postgres returns real booleans
+      if self.admin == 'f' or self.admin == "0"
+        return false
+      end
+      return self.admin
+  end
  
   def self.authenticate(login, password)
     account = self.find_by_login(login)
